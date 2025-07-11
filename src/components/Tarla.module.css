@@ -1,0 +1,22 @@
+.div1{
+    width: 60px;
+    height: 60px;
+    background-color: green;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid;
+    cursor: pointer;
+    font-size: 24;
+}
+
+.tarlas{
+    width: 60;
+    height: 60;
+    background-color: chocolate;
+    border: 1px solid #ccc;
+    justify-content: center;
+    align-items: center;
+    font-size: 16;
+    display: flex;
+}

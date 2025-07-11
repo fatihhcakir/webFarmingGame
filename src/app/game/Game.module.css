@@ -1,0 +1,15 @@
+.cards{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-width: 300px;
+    margin-top: 20px;
+}
+.tarlas{
+    width: 60;
+    height: 60;
+    background-color: chocolate;
+    border: 1px solid #ccc;
+    
+}
+    
