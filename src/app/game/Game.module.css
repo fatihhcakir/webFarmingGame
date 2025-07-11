@@ -12,4 +12,12 @@
     border: 1px solid #ccc;
     
 }
+
+.btn1{
+    margin-bottom: 16px;
+    padding: 8px 16px;
+    background-color: aquamarine;
+    border: none;
+    cursor: pointer;
+}
     

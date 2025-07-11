@@ -1,44 +1,63 @@
-// components/Tile.tsx
-'use client';
-import { useState } from 'react';
-import styles from "./Tarla.module.css"
+"use client";
+import { useState, useContext } from "react";
+import styles from "./Tarla.module.css";
+import { MoneyContext } from "@/app/context/MoneyContext";
+import { TohumContext } from "@/app/context/TohumContext";
 
 type Props = {
   index: number;
-  isHasat: (state: string) => void;
-  isPlant: () => void;
 };
 
-export default function Tarla({ index, isPlant, isHasat }: Props) {
-  const [state, setState] = useState<'empty' | 'T' | 'B' | 'Ç' | 'K'>('empty');
+export default function Tarla({ index }: Props) {
+  const { balance, setBalance } = useContext(MoneyContext);
+  const { seeds, setSeeds } = useContext(TohumContext);
+  const [state, setState] = useState<"empty" | "T" | "F" | "B" | "Ç" | "K">("empty");
+  const [type, setType] = useState<"Papatya" | "Lale" | null>(null);
 
   const handleClick = () => {
-    if (state === 'empty') {
-      setState('T');
-      isPlant();
-      setTimeout(()=>setState('B'),2000)
-      setTimeout(()=>setState('Ç'),4000)
-      isHasat(state)
-      setTimeout(()=>setState('K'),8000)
+    if (state === "empty") {
+      if (seeds["Papatya"] > 0) {
+        setSeeds({ ...seeds, Papatya: seeds["Papatya"] - 1 });
+        setType("Papatya");
+        setState("T");
+        setTimeout(() => setState("F"), 2000);
+        setTimeout(() => setState("B"), 4000);
+        setTimeout(() => setState("Ç"), 6000);
+        setTimeout(() => setState("K"), 10000);
+      } else if (seeds["Lale"] > 0) {
+        setSeeds({ ...seeds, Lale: seeds["Lale"] - 1 });
+        setType("Lale");
+        setState("T");
+        setTimeout(() => setState("F"), 2000);
+        setTimeout(() => setState("B"), 4000);
+        setTimeout(() => setState("Ç"), 6000);
+        setTimeout(() => setState("K"), 10000);
+      } else {
+        alert("Hiç tohumunuz yok!");
+      }
+    } else if (state === "K") {
+      if (type === "Papatya") {
+        setBalance(balance); 
+      } else if (type === "Lale") {
+        setBalance(balance); 
+      }
+      setState("empty");
+      setType(null);
     }
-    else if (state === 'K') {
-      isHasat(state)
-      setState('empty');
+    else if (state === "Ç") {
+      if (type === "Papatya") {
+        setBalance(balance+10); 
+      } else if (type === "Lale") {
+        setBalance(balance+20); 
+      }
+      setState("empty");
+      setType(null);
     }
-    else if (state === 'Ç') {
-      isHasat(state)
-      setState('empty')
-    }
-
   };
 
-
   return (
-    <div
-      onClick={handleClick}
-      className={styles.tarlas}
-    >
-      {state}
+    <div onClick={handleClick} className={styles.tarlas}>
+      {state === "empty" ? "" : state}
     </div>
   );
 }
